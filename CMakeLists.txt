@@ -93,26 +93,38 @@ endif()
 set_property(CACHE GPU_TARGETS PROPERTY STRINGS "all")
 
 if(GPU_TARGETS STREQUAL "all")
-  if(BUILD_ADDRESS_SANITIZER)
-    # ASAN builds require xnack
-    rocm_check_target_ids(DEFAULT_AMDGPU_TARGETS
-      TARGETS "gfx908:xnack+;gfx90a:xnack+;gfx940:xnack+;gfx941:xnack+;gfx942:xnack+"
-    )
-  else()
-    rocm_check_target_ids(DEFAULT_AMDGPU_TARGETS
-      TARGETS "gfx803;gfx900:xnack-;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
-    )
-  endif()
+  # if(BUILD_ADDRESS_SANITIZER)
+  #   # ASAN builds require xnack
+  #   rocm_check_target_ids(DEFAULT_AMDGPU_TARGETS
+  #     TARGETS "gfx908:xnack+;gfx90a:xnack+;gfx940:xnack+;gfx941:xnack+;gfx942:xnack+"
+  #   )
+  # else()
+  #   rocm_check_target_ids(DEFAULT_AMDGPU_TARGETS
+  #     TARGETS "gfx803;gfx900:xnack-;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack-;gfx90a:xnack+;gfx940;gfx941;gfx942;gfx1030;gfx1100;gfx1101;gfx1102;gfx1200;gfx1201"
+  #   )
+  # endif()
 
   set(GPU_TARGETS "${DEFAULT_AMDGPU_TARGETS}" CACHE STRING "GPU architectures to compile for" FORCE)
 endif()
 
-if(NOT WIN32)
-  include(cmake/VerifyCompiler.cmake)
-else()
+# if(NOT WIN32)
+  # include(cmake/VerifyCompiler.cmake)
+# else()
   list(APPEND CMAKE_PREFIX_PATH ${ROCM_PATH} $ENV{ROCM_PATH}/hip $ENV{ROCM_PATH}/llvm)
   find_package(hip REQUIRED CONFIG PATHS ${HIP_DIR} $ENV{ROCM_PATH})
+# Check for hip::host and hip::device targets
+if(TARGET hip::host)
+  message(WARNING "hip::host target found")
+else()
+  message(WARNING "hip::host target not found")
 endif()
+
+if(TARGET hip::device)
+  message(WARNING "hip::device target found")
+else()
+  message(WARNING "hip::device target not found")
+endif()
+# endif()
 
 # Build option to disable -Werror
 option(DISABLE_WERROR "Disable building with Werror" ON)
@@ -213,16 +225,16 @@ else()
     endif()
 endif()
 
-if( HIP_RUNTIME_LOWER STREQUAL "rocclr" )
-    if(BUILD_ADDRESS_SANITIZER)
-        set(DEPENDS_HIP_RUNTIME "hip-runtime-amd-asan" )
-    else()
-        set(DEPENDS_HIP_RUNTIME "hip-runtime-amd" )
-    endif()
-    rocm_package_add_dependencies("${DEPENDS_HIP_RUNTIME} >= 4.5.0")
-elseif( HIP_RUNTIME STREQUAL "cuda" )
-    rocm_package_add_dependencies("hip-nvcc >= 3.5.0")
-endif( )
+# if( HIP_RUNTIME_LOWER STREQUAL "rocclr" )
+#     if(BUILD_ADDRESS_SANITIZER)
+#         set(DEPENDS_HIP_RUNTIME "hip-runtime-amd-asan" )
+#     else()
+#         set(DEPENDS_HIP_RUNTIME "hip-runtime-amd" )
+#     endif()
+#     rocm_package_add_dependencies("${DEPENDS_HIP_RUNTIME} >= 4.5.0")
+# elseif( HIP_RUNTIME STREQUAL "cuda" )
+#     rocm_package_add_dependencies("hip-nvcc >= 3.5.0")
+# endif( )
 
 set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION "\${CPACK_PACKAGING_INSTALL_PREFIX}" )
 

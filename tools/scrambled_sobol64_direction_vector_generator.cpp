@@ -65,7 +65,7 @@ int main(int argc, char const* argv[])
         << "#endif // SCRAMBLED_SOBOL_DIM\n"
         << "#define SCRAMBLED_SOBOL64_N " << rocrand_tools::SOBOL64_N << "\n"
         << "\n"
-        << "extern \"C\" ROCRANDAPI const unsigned long long " << symbol
+        << "extern \"C\" ROCRANDAPI unsigned long long " << symbol
         << "[SCRAMBLED_SOBOL64_N];\n"
         << "\n"
         << "#endif // ROCRAND_SCRAMBLED_SOBOL64_PRECOMPUTED_H_\n";

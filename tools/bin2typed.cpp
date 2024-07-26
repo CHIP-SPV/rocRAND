@@ -44,7 +44,7 @@ void write_array(const std::string_view type_name,
         << "#include \"rocrand/rocrandapi.h\"\n"
         << "\n"
         << "// clang-format off\n"
-        << "extern \"C\" ROCRANDAPI const " << type_name << " " << symbol << '[' << size_elements
+        << "extern \"C\" ROCRANDAPI " << type_name << " " << symbol << '[' << size_elements
         << "] =\n"
         << '{';
 

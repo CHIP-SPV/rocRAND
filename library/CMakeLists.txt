@@ -43,6 +43,30 @@ set(rocRAND_HIP_SRCS
     "src/rocrand_mt19937_precomputed.cpp"
     "src/rocrand.cpp")
 
+# Add -fgpu-rdc flag to specific source files
+set(RDC_SOURCES
+    "src/rng/generator_type_lfsr113.cpp"
+    "src/rng/generator_type_mrg31k3p.cpp"
+    "src/rng/generator_type_mrg32k3a.cpp"
+    "src/rng/generator_type_mt19937.cpp"
+    "src/rng/generator_type_mtgp32.cpp"
+    "src/rng/generator_type_philox4x32_10.cpp"
+    "src/rng/generator_type_scrambled_sobol32.cpp"
+    "src/rng/generator_type_scrambled_sobol64.cpp"
+    "src/rng/generator_type_sobol32.cpp"
+    "src/rng/generator_type_sobol64.cpp"
+    "src/rng/generator_type_threefry2x32_20.cpp"
+    "src/rng/generator_type_threefry2x64_20.cpp"
+    "src/rng/generator_type_threefry4x32_20.cpp"
+    "src/rng/generator_type_threefry4x64_20.cpp"
+    "src/rng/generator_type_xorwow.cpp"
+)
+
+# Set the -fgpu-rdc flag for the specified source files
+foreach(SOURCE_FILE ${RDC_SOURCES})
+    set_source_files_properties(${SOURCE_FILE} PROPERTIES COMPILE_FLAGS -fgpu-rdc)
+endforeach()
+
 # When enabled, it defines ROCRAND_ENABLE_INLINE_ASM in rocrand_version.h, which
 # turns on inline asm in rocRAND (for both compiled library and device functions).
 option(ENABLE_INLINE_ASM "Enable inline asm optimisations in rocRAND" ON)

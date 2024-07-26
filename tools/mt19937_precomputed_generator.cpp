@@ -109,7 +109,7 @@ int main(int argc, char const* argv[])
 
     fout << "\n"
             "// clang-format off\n"
-            "extern ROCRANDAPI const unsigned int rocrand_h_mt19937_jump[mt19937_jumps_count * "
+            "extern ROCRANDAPI unsigned int rocrand_h_mt19937_jump[mt19937_jumps_count * "
             "mt19937_p_size] = {\n";
 
     for(unsigned int j = 0; j < jumps_count; j++)

@@ -28,6 +28,6 @@ constexpr unsigned int mt19937_jumps_radixes = 2;
 constexpr unsigned int mt19937_jumps_radix   = 256;
 constexpr unsigned int mt19937_jumps_count   = (mt19937_jumps_radix - 1) * mt19937_jumps_radixes;
 
-extern ROCRANDAPI const unsigned int rocrand_h_mt19937_jump[mt19937_jumps_count * mt19937_p_size];
+extern ROCRANDAPI unsigned int rocrand_h_mt19937_jump[mt19937_jumps_count * mt19937_p_size];
 
 #endif // ROCRAND_MT19937_PRECOMPUTED_H_

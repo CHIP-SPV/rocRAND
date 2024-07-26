@@ -29,7 +29,9 @@
 #include "generator_type.hpp"
 #include "system.hpp"
 
+#if defined(__HIP_PLATFORM_AMD__)
 #include <hip/amd_detail/host_defines.h>
+#endif
 #include <rocrand/rocrand.h>
 #include <rocrand/rocrand_xorwow.h>
 
