@@ -63,9 +63,13 @@ set(RDC_SOURCES
 )
 
 # Set the -fgpu-rdc flag for the specified source files
-foreach(SOURCE_FILE ${RDC_SOURCES})
-    set_source_files_properties(${SOURCE_FILE} PROPERTIES COMPILE_FLAGS -fgpu-rdc)
-endforeach()
+# Note: -fgpu-rdc is disabled for SPIR-V/chipStar as it causes linker issues
+# with undefined __hip_gpubin_handle_* symbols
+if(NOT HIP_PLATFORM STREQUAL "spirv")
+    foreach(SOURCE_FILE ${RDC_SOURCES})
+        set_source_files_properties(${SOURCE_FILE} PROPERTIES COMPILE_FLAGS -fgpu-rdc)
+    endforeach()
+endif()
 
 # When enabled, it defines ROCRAND_ENABLE_INLINE_ASM in rocrand_version.h, which
 # turns on inline asm in rocRAND (for both compiled library and device functions).
