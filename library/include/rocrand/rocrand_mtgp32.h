@@ -56,6 +56,7 @@
 #define ROCRAND_MTGP32_H_
 
 #include <stdlib.h>
+#include <cstring>
 
 #include "rocrand/rocrand.h"
 #include "rocrand/rocrand_common.h"
