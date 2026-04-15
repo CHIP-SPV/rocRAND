@@ -409,7 +409,9 @@ struct mt19937_octo_engine_accessor
     __forceinline__ __device__ mt19937_octo_engine load(unsigned int engine_id) const
     {
         mt19937_octo_engine engine;
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
         for(unsigned int i = 0; i < mt19937_constants::n / threads_per_generator; i++)
         {
             engine.m_state.mt[i] = engines[i * stride + engine_id];
@@ -421,7 +423,9 @@ struct mt19937_octo_engine_accessor
     __forceinline__ __device__ void save(unsigned int               engine_id,
                                          const mt19937_octo_engine& engine) const
     {
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
         for(unsigned int i = 0; i < mt19937_constants::n / threads_per_generator; i++)
         {
             engines[i * stride + engine_id] = engine.m_state.mt[i];

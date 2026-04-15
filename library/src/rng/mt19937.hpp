@@ -266,7 +266,9 @@ ROCRAND_KERNEL __launch_bounds__((get_block_size<ConfigProvider, T>(
            && j * stride + thread_id - start_input < vec_size + extra)
         {
             mt19937_octo_engine_accessor<stride> accessor(engines);
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
             for(unsigned int i = 0; i < input_width; i++)
             {
                 input[i] = mt19937_octo_engine::temper(
@@ -351,13 +353,17 @@ ROCRAND_KERNEL __launch_bounds__((get_block_size<ConfigProvider, T>(
     // the end sequence, but not yet used.
     if(start_input > 0)
     {
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
         for(unsigned int j = 0; j < inputs_per_state; j++)
         {
             // Skip used values
             if(j * stride + thread_id >= start_input)
             {
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
                 for(unsigned int i = 0; i < input_width; i++)
                 {
                     input[i] = mt19937_octo_engine::temper(engine.get(j * input_width + i));
@@ -377,10 +383,14 @@ ROCRAND_KERNEL __launch_bounds__((get_block_size<ConfigProvider, T>(
     for(; base_index + full_stride <= vec_size; base_index += full_stride)
     {
         engine.gen_next_n();
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
         for(unsigned int j = 0; j < inputs_per_state; j++)
         {
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
             for(unsigned int i = 0; i < input_width; i++)
             {
                 input[i] = mt19937_octo_engine::temper(engine.get(j * input_width + i));
@@ -402,10 +412,14 @@ ROCRAND_KERNEL __launch_bounds__((get_block_size<ConfigProvider, T>(
     {
         bool is_extra_thread = false;
         engine.gen_next_n();
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
         for(unsigned int j = 0; j < inputs_per_state; j++)
         {
+#if !defined(__HIP_PLATFORM_SPIRV__)
 #pragma unroll
+#endif
             for(unsigned int i = 0; i < input_width; i++)
             {
                 input[i] = mt19937_octo_engine::temper(engine.get(j * input_width + i));
