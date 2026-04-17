@@ -1,0 +1,46 @@
+# CTest exclude patterns. Each entry links to an upstream issue.
+# Fix the test, then remove the entry.
+#
+# rocRAND has 37/45 SEGFAULT failures on chipStar+IGC.
+# Root cause: IGC SIMD32 finalizer silently drops kernels (IGC #403:
+# https://github.com/intel/intel-graphics-compiler/issues/403).
+# chipStar returns null function pointer -> SEGFAULT.
+# MT19937 #pragma unroll bloat was fixed by CHIP-SPV/rocRAND#1 (merged)
+# but the underlying IGC kernel-drop affects all RNG engines.
+test_rocrand_basic
+test_rocrand_cpp_basic
+test_rocrand_cpp_wrapper
+test_rocrand_generate
+test_rocrand_generate_log_normal
+test_rocrand_generate_normal
+test_rocrand_generate_poisson
+test_rocrand_generate_uniform
+test_rocrand_hipgraphs
+test_rocrand_host
+test_rocrand_kernel_lfsr113
+test_rocrand_kernel_mrg
+test_rocrand_kernel_mtgp32
+test_rocrand_kernel_philox4x32_10
+test_rocrand_kernel_scrambled_sobol32
+test_rocrand_kernel_scrambled_sobol64
+test_rocrand_kernel_sobol32
+test_rocrand_kernel_sobol64
+test_rocrand_kernel_threefry2x32_20
+test_rocrand_kernel_threefry2x64_20
+test_rocrand_kernel_threefry4x32_20
+test_rocrand_kernel_threefry4x64_20
+test_rocrand_kernel_xorwow
+test_rocrand_lfsr113_prng
+test_rocrand_mrg_prng
+test_rocrand_mt19937_prng
+test_rocrand_mtgp32_prng
+test_rocrand_philox_prng
+test_rocrand_scrambled_sobol32_qrng
+test_rocrand_scrambled_sobol64_qrng
+test_rocrand_sobol32_qrng
+test_rocrand_sobol64_qrng
+test_rocrand_threefry2x32_20_prng
+test_rocrand_threefry2x64_20_prng
+test_rocrand_threefry4x32_20_prng
+test_rocrand_threefry4x64_20_prng
+test_rocrand_xorwow_prng
